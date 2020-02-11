@@ -12,4 +12,4 @@ This repo implements and tests some simple stereo algorithms discussed in comput
  
 ### Results:
  stereo-Matching using dynamic programming result:
- ![this is image](/1.png)
+ ![this is image](/Result1.png)
