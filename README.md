@@ -5,7 +5,8 @@ This repo implements and tests some simple stereo algorithms discussed in comput
 
 ### how to Run the script
   1- to run the dynamic programming part $python stereo_Matching_DB.py <path_for_left_image> <path_for_right_image> 
-  (i.e. $python stereo_Matching_DB.py images/left2.png images/right2.png)
+  (i.e. $python stereo_Matching_DB.py images/left2.png images/right2.png)\
+  
   2 to run the block_Matching part $python stereo_Matching_DB.py <path_for_left_image> <path_for_right_image> <window_size>
   (i.e. $python block_Matching.py tsukuba_l.png tsukuba_R.png 9)
  
