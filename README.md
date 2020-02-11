@@ -10,3 +10,6 @@ This repo implements and tests some simple stereo algorithms discussed in comput
   2 to run the block_Matching part $python stereo_Matching_DB.py <path_for_left_image> <path_for_right_image> <window_size>
   (i.e. $python block_Matching.py tsukuba_l.png tsukuba_R.png 9)
  
+### Results:
+ stereo-Matching using dynamic programming result:
+ ![this is image](/1.png)
