@@ -1,6 +1,7 @@
 import numpy as np 
 import cv2
 import threading
+import sys
 
 SIGMA = 2
 SKIPPING_COST = 7
@@ -14,6 +15,7 @@ def disparity(imgL,imgR,disparity_map,start_index,end_index):
     print("s=",start_index ,"     end_index",end_index)
     print("range(start_index,end_index)=",range(start_index,end_index))
     for i in range(start_index,end_index):
+        # for i in range(200):
         line_matrix = [[0 for i in range(len(imgL[0]))] for j in range(len(imgR[0]))]
         M = [[0 for i in range(len(imgL[0]))] for j in range(len(imgR[0]))]
         line_matrix[0][0] = calc_desparity(imgL[i][0],imgR[i][0])
@@ -34,9 +36,9 @@ def disparity(imgL,imgR,disparity_map,start_index,end_index):
                 line_matrix[j][k] = finalMin
                 if min1 == finalMin:
                     M[j][k] = 1
-                elif min2 == finalMin:
+                if min2 == finalMin:
                     M[j][k] = 2
-                elif min3 == finalMin:
+                if min3 == finalMin:
                     M[j][k] = 3
         
         p = k
@@ -55,8 +57,22 @@ def disparity(imgL,imgR,disparity_map,start_index,end_index):
                 q -= 1
 
 
-imgL = cv2.imread('images/left2.png',0)  # downscale images for faster processing
-imgR = cv2.imread('images/right2.png',0)
+program_name = sys.argv[0]
+arguments = sys.argv[1:]
+count = len(arguments)
+
+if count >2:
+    print("usage: $python stereo_Matching_DB.py <path_for_left_image> <path_for_right_image>")
+    sys.exit (1)
+    
+print("left image path is: ",arguments[0])
+print("right image path is: ",arguments[1])
+
+imagLPath = arguments[0]
+imagRPath = arguments[1]
+
+imgL = cv2.imread(imagLPath,0)  # downscale images for faster processing
+imgR = cv2.imread(imagRPath,0)
 disparity_map = imgL.copy()
 thread_list = []
 covered_range = 0
@@ -79,11 +95,31 @@ for thread in thread_list:
     thread.join()
 
 
-cv2.imwrite( "1.png", disparity_map)
+# x = threading.Thread(target=disparity,args=(imgL,imgR,disparity_map,0,int(len(imgL)/4),))
+# x2 = threading.Thread(target=disparity,args=(imgL,imgR,disparity_map,int(len(imgL)/4),int(len(imgL)/2),))
+# x3 = threading.Thread(target=disparity,args=(imgL,imgR,disparity_map,int(len(imgL)/2),int(3*len(imgL)/4),))
+# x4 = threading.Thread(target=disparity,args=(imgL,imgR,disparity_map,int(3*len(imgL)/4),int(len(imgL)),))
+
+# x.start()
+# x2.start()
+# x3.start()
+# x4.start()
+
+# print("yes")
+# x.join()
+# print("yes1")
+# x2.join()
+# print("yes2")
+# x3.join()
+# print("yes3")
+# x4.join()
+# print("yes4")
 
 
 cv2.imshow('left', imgL)
 cv2.imshow('right', imgR)
 cv2.imshow('disparity_map', disparity_map)
+
+
 cv2.waitKey(0)
 cv2.destroyAllWindows()
